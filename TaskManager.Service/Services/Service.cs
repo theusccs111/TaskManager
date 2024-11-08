@@ -2,14 +2,7 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Caching.Memory;
 using System.ComponentModel.DataAnnotations;
-using SOMA.OPEX.Domain.Resource.Base;
-using SOMA.OPEX.Service.Interface.Persistance;
-using SOMA.OPEX.Domain.Entities.Base;
 using Microsoft.Extensions.Configuration;
-using SOMA.OPEX.Domain.Resource.Response;
-using SOMA.OPEX.Service.Helpers;
-using Serilog;
-using SOMA.OPEX.Service.Interface.Persistance.Repository;
 using Task.Manager.Domain.Entities.Base;
 using Task.Manager.Domain.Resource.Base;
 using TaskManager.Service.Interface.Persistance;
