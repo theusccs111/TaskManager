@@ -5,6 +5,7 @@ using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -51,6 +52,9 @@ namespace TaskManager.Service.Services
         {
             var entity = Uow.Project.GetFirst(x => x.Id == request.Id);
 
+            if (entity == null)
+                throw new ValidationException("Projeto não encontrado");
+
             Mapper.Map(request, entity);
 
 
@@ -67,6 +71,9 @@ namespace TaskManager.Service.Services
         {
             var entity = Uow.Project.GetDbSet().Include(x => x.Tasks)
                     .FirstOrDefault(x => x.Id == request.Id);
+
+            if (entity == null)
+                throw new ValidationException("Projeto não encontrado");
 
             ProjectValidation.ValidateToDelete(entity).ThrowException();
 

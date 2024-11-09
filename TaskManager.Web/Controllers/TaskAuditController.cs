@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Task.Manager.Domain.Resource.Request;
+using TaskManager.Service.Interface.Services;
 using TaskManager.Service.Services;
 
 namespace SOMA.OPEX.Web.Controllers
@@ -8,11 +9,18 @@ namespace SOMA.OPEX.Web.Controllers
     [ApiController]
     public class TaskAuditController : ControllerBase
     {
-        private readonly TaskAuditService _taskAuditService;
+        private readonly ITaskAuditService _taskAuditService;
 
-        public TaskAuditController(TaskAuditService taskAuditService)
+        public TaskAuditController(ITaskAuditService taskAuditService)
         {
             _taskAuditService = taskAuditService;
+        }
+
+        [HttpGet]
+        public IActionResult ListByTask(long taskId)
+        {
+            var dados = _taskAuditService.List(taskId);
+            return Ok(dados);
         }
 
         [HttpPost]

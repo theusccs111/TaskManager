@@ -74,193 +74,44 @@ namespace TaskManager.Persistance.Data
         {
             if (!context.Task.Any())
             {
-                IEnumerable<Task.Manager.Domain.Entities.Task> tasks = new List<Task.Manager.Domain.Entities.Task>()
-            {
-                new Task.Manager.Domain.Entities.Task()
+                List<Task.Manager.Domain.Entities.Task> tasks = new List<Task.Manager.Domain.Entities.Task>();
+
+                for (int i = 1; i <= 15; i++)
                 {
-                    Title = "Criar módulo de RH",
-                    Description = "Aqui deve ser criado o módulo de RH onde terá como cadastrar funcionários, cargos e salários",
-                    Priority = PriorityTask.High,
-                    ProjectId = 1,
-                    UserId = 1,
-                    Status = StatusTask.Proposed,
-                    ExpiredDate = DateTime.Now.AddMonths(1),
-                },
-                new Task.Manager.Domain.Entities.Task()
+                    tasks.Add(new Task.Manager.Domain.Entities.Task()
+                    {
+                        Title = $"Tarefa de Projeto 1 - {i}",
+                        Description = $"Descrição para Tarefa {i} do Projeto 1",
+                        Priority = (PriorityTask)(i % 3), 
+                        ProjectId = 1,
+                        UserId = i % 2 == 0 ? 1 : 2, 
+                        Status = i % 3 == 0 ? StatusTask.Closed : StatusTask.Active, 
+                        ExpiredDate = DateTime.Now.AddMonths(1),
+                        ClosedDate = i % 3 == 0 ? DateTime.Now.AddDays(-i) : null 
+                    });
+                }
+
+
+                for (int i = 1; i <= 10; i++)
                 {
-                    Title = "Criar módulo de Contabilidade",
-                    Description = "Aqui deve ser criado o módulo de Contabilidade onde terá como cadastrar contas contábeis e extrair relatórios",
-                    Priority = PriorityTask.Medium,
-                    ProjectId = 1,
-                    UserId = 1,
-                    Status = StatusTask.Active,
-                    ExpiredDate = DateTime.Now.AddMonths(1),
-                },
-                new Task.Manager.Domain.Entities.Task()
-                {
-                    Title = "Criar módulo de Diretoria",
-                    Description = "Aqui deve ser criado o módulo de Diretoria onde terá como emitir relatórios e vizualizar indicadores",
-                    Priority = PriorityTask.Low,
-                    ProjectId = 1,
-                    UserId = 1,
-                    Status = StatusTask.Closed,
-                    ExpiredDate = DateTime.Now.AddMonths(-1),
-                },
-                new Task.Manager.Domain.Entities.Task()
-                {
-                    Title = "Criar módulo de RH",
-                    Description = "Aqui deve ser criado o módulo de RH onde terá como cadastrar funcionários, cargos e salários",
-                    Priority = PriorityTask.High,
-                    ProjectId = 1,
-                    UserId = 1,
-                    Status = StatusTask.Proposed,
-                    ExpiredDate = DateTime.Now.AddMonths(1),
-                },
-                new Task.Manager.Domain.Entities.Task()
-                {
-                    Title = "Criar módulo de Contabilidade",
-                    Description = "Aqui deve ser criado o módulo de Contabilidade onde terá como cadastrar contas contábeis e extrair relatórios",
-                    Priority = PriorityTask.Medium,
-                    ProjectId = 1,
-                    UserId = 1,
-                    Status = StatusTask.Active,
-                    ExpiredDate = DateTime.Now.AddMonths(1),
-                },
-                new Task.Manager.Domain.Entities.Task()
-                {
-                    Title = "Criar módulo de Diretoria",
-                    Description = "Aqui deve ser criado o módulo de Diretoria onde terá como emitir relatórios e vizualizar indicadores",
-                    Priority = PriorityTask.Low,
-                    ProjectId = 1,
-                    UserId = 1,
-                    Status = StatusTask.Closed,
-                    ExpiredDate = DateTime.Now.AddMonths(-1),
-                },
-                new Task.Manager.Domain.Entities.Task()
-                {
-                    Title = "Criar módulo de RH",
-                    Description = "Aqui deve ser criado o módulo de RH onde terá como cadastrar funcionários, cargos e salários",
-                    Priority = PriorityTask.High,
-                    ProjectId = 1,
-                    UserId = 1,
-                    Status = StatusTask.Proposed,
-                    ExpiredDate = DateTime.Now.AddMonths(1),
-                },
-                new Task.Manager.Domain.Entities.Task()
-                {
-                    Title = "Criar módulo de Contabilidade",
-                    Description = "Aqui deve ser criado o módulo de Contabilidade onde terá como cadastrar contas contábeis e extrair relatórios",
-                    Priority = PriorityTask.Medium,
-                    ProjectId = 1,
-                    UserId = 1,
-                    Status = StatusTask.Active,
-                    ExpiredDate = DateTime.Now.AddMonths(1),
-                },
-                new Task.Manager.Domain.Entities.Task()
-                {
-                    Title = "Criar módulo de Diretoria",
-                    Description = "Aqui deve ser criado o módulo de Diretoria onde terá como emitir relatórios e vizualizar indicadores",
-                    Priority = PriorityTask.Low,
-                    ProjectId = 1,
-                    UserId = 2,
-                    Status = StatusTask.Closed,
-                    ExpiredDate = DateTime.Now.AddMonths(-1),
-                },
-                new Task.Manager.Domain.Entities.Task()
-                {
-                    Title = "Criar módulo de RH",
-                    Description = "Aqui deve ser criado o módulo de RH onde terá como cadastrar funcionários, cargos e salários",
-                    Priority = PriorityTask.High,
-                    ProjectId = 1,
-                    UserId = 2,
-                    Status = StatusTask.Proposed,
-                    ExpiredDate = DateTime.Now.AddMonths(1),
-                },
-                new Task.Manager.Domain.Entities.Task()
-                {
-                    Title = "Criar módulo de Contabilidade",
-                    Description = "Aqui deve ser criado o módulo de Contabilidade onde terá como cadastrar contas contábeis e extrair relatórios",
-                    Priority = PriorityTask.Medium,
-                    ProjectId = 1,
-                    UserId = 2,
-                    Status = StatusTask.Active,
-                    ExpiredDate = DateTime.Now.AddMonths(1),
-                },
-                new Task.Manager.Domain.Entities.Task()
-                {
-                    Title = "Criar módulo de Diretoria",
-                    Description = "Aqui deve ser criado o módulo de Diretoria onde terá como emitir relatórios e vizualizar indicadores",
-                    Priority = PriorityTask.Low,
-                    ProjectId = 1,
-                    UserId = 2,
-                    Status = StatusTask.Closed,
-                    ExpiredDate = DateTime.Now.AddMonths(-1),
-                },
-                new Task.Manager.Domain.Entities.Task()
-                {
-                    Title = "Criar módulo de RH",
-                    Description = "Aqui deve ser criado o módulo de RH onde terá como cadastrar funcionários, cargos e salários",
-                    Priority = PriorityTask.High,
-                    ProjectId = 1,
-                    UserId = 2,
-                    Status = StatusTask.Proposed,
-                    ExpiredDate = DateTime.Now.AddMonths(1),
-                },
-                new Task.Manager.Domain.Entities.Task()
-                {
-                    Title = "Criar módulo de Contabilidade",
-                    Description = "Aqui deve ser criado o módulo de Contabilidade onde terá como cadastrar contas contábeis e extrair relatórios",
-                    Priority = PriorityTask.Medium,
-                    ProjectId = 1,
-                    UserId = 2,
-                    Status = StatusTask.Active,
-                    ExpiredDate = DateTime.Now.AddMonths(1),
-                },
-                new Task.Manager.Domain.Entities.Task()
-                {
-                    Title = "Criar módulo de Diretoria",
-                    Description = "Aqui deve ser criado o módulo de Diretoria onde terá como emitir relatórios e vizualizar indicadores",
-                    Priority = PriorityTask.Low,
-                    ProjectId = 1,
-                    UserId = 2,
-                    Status = StatusTask.Closed,
-                    ExpiredDate = DateTime.Now.AddMonths(-1),
-                },
-                new Task.Manager.Domain.Entities.Task()
-                {
-                    Title = "Criar módulo de RH",
-                    Description = "Aqui deve ser criado o módulo de RH onde terá como cadastrar funcionários, cargos e salários",
-                    Priority = PriorityTask.High,
-                    ProjectId = 1,
-                    UserId = 2,
-                    Status = StatusTask.Proposed,
-                    ExpiredDate = DateTime.Now.AddMonths(1),
-                },
-                new Task.Manager.Domain.Entities.Task()
-                {
-                    Title = "Criar módulo de Contabilidade",
-                    Description = "Aqui deve ser criado o módulo de Contabilidade onde terá como cadastrar contas contábeis e extrair relatórios",
-                    Priority = PriorityTask.Medium,
-                    ProjectId = 1,
-                    UserId = 2,
-                    Status = StatusTask.Active,
-                    ExpiredDate = DateTime.Now.AddMonths(1),
-                },
-                new Task.Manager.Domain.Entities.Task()
-                {
-                    Title = "Criar módulo de Diretoria",
-                    Description = "Aqui deve ser criado o módulo de Diretoria onde terá como emitir relatórios e vizualizar indicadores",
-                    Priority = PriorityTask.Low,
-                    ProjectId = 1,
-                    UserId = 2,
-                    Status = StatusTask.Closed,
-                    ExpiredDate = DateTime.Now.AddMonths(-1),
-                },
-            };
+                    tasks.Add(new Task.Manager.Domain.Entities.Task()
+                    {
+                        Title = $"Tarefa de Projeto 2 - {i}",
+                        Description = $"Descrição para Tarefa {i} do Projeto 2",
+                        Priority = (PriorityTask)(i % 3), 
+                        ProjectId = 2,
+                        UserId = i % 2 == 0 ? 1 : 2, 
+                        Status = i % 3 == 0 ? StatusTask.Closed : StatusTask.Proposed, 
+                        ExpiredDate = DateTime.Now.AddMonths(1),
+                        ClosedDate = i % 3 == 0 ? DateTime.Now.AddDays(-i) : null 
+                    });
+                }
 
                 context.Task.AddRange(tasks);
                 context.SaveChanges();
             }
         }
+
+
     }
 }

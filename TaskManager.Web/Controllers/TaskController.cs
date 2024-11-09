@@ -27,6 +27,17 @@ namespace SOMA.OPEX.Web.Controllers
             return Ok(dados);
         }
 
+        [HttpGet("ReportPerformance")]
+        public IActionResult ReportPerformance(long userId)
+        {
+            ReportRequest request = new ReportRequest()
+            {
+                UserId = userId
+            };
+            var dados = _taskService.ReportPerformance(request);
+            return Ok(dados);
+        }
+
         [HttpPost]
         public IActionResult Add(TaskRequest request)
         {

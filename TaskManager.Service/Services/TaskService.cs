@@ -1,24 +1,29 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Configuration;
 using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using Task.Manager.Domain.Entities;
+using Task.Manager.Domain.Enums;
 using Task.Manager.Domain.Extensions;
 using Task.Manager.Domain.Resource.Base;
 using Task.Manager.Domain.Resource.Request;
 using Task.Manager.Domain.Resource.Response;
 using Task.Manager.Domain.Validations;
 using TaskManager.Service.Interface.Persistance;
+using TaskManager.Service.Interface.Services;
 
 namespace TaskManager.Service.Services
 {
     public class TaskService : Service<Task.Manager.Domain.Entities.Task, TaskRequest, TaskResponse>
     {
-        private readonly TaskAuditService _taskAuditService;
-        public TaskService(IHttpContextAccessor httpContextAccessor, IUnityOfWork uow, IMapper mapper, IUnityOfWork unityOfWork, IConfiguration config, IMemoryCache memoryCache, TaskAuditService taskAuditService) : base(httpContextAccessor, uow, mapper, unityOfWork, config, memoryCache)
+        private readonly ITaskAuditService _taskAuditService;
+        public TaskService(IHttpContextAccessor httpContextAccessor, IUnityOfWork uow, IMapper mapper, IUnityOfWork unityOfWork, IConfiguration config, IMemoryCache memoryCache, ITaskAuditService taskAuditService) : base(httpContextAccessor, uow, mapper, unityOfWork, config, memoryCache)
         {
             _taskAuditService = taskAuditService;
         }
@@ -37,11 +42,25 @@ namespace TaskManager.Service.Services
             return response;
         }
 
-        public void ReportPerformance()
+        public ResponseDefault<List<ReportPerformanceResponse>> ReportPerformance(ReportRequest request)
         {
-            //- A API deve fornecer endpoints para gerar relatórios de desempenho, como o número médio de tarefas concluídas por usuário nos últimos 30 dias.
-            // -Os relatórios devem ser acessíveis apenas por usuários com uma função específica de "gerente".
+            var user = Uow.User.GetFirst(x => x.Id == request.UserId);
 
+            UserValidation.ValidateBeManager(user).ThrowException();
+
+            var tasks = Uow.Task.GetDbSet()
+                .Where(x => x.Status == StatusTask.Closed && x.ClosedDate >= DateTime.Now.AddDays(-30))
+                .GroupBy(x => x.UserId)
+                .Select(g => new ReportPerformanceResponse()
+                {
+                    UserId = g.Key,
+                    AverageTasksCompleted = g.Count()
+                })
+            .ToList();
+
+            var response = new ResponseDefault<List<ReportPerformanceResponse>>(tasks);
+
+            return response;
 
         }
 
@@ -67,11 +86,17 @@ namespace TaskManager.Service.Services
         {
             var entity = Uow.Task.GetFirst(x => x.Id == request.Id);
 
+            if (entity == null)
+                throw new ValidationException("Tarefa não encontrada");
+
             TaskValidation.ValidateToEdit(entity, request).ThrowException();
             string description = GetAuditDescription(entity, request);
 
             Mapper.Map(request, entity);
-
+            if(entity.Status == StatusTask.Closed)
+            {
+                entity.ClosedDate = DateTime.Now;
+            }
 
             Uow.Task.Update(entity);
             
@@ -130,6 +155,9 @@ namespace TaskManager.Service.Services
         public ResponseDefault<TaskResponse> Delete(TaskRequest request)
         {
             var entity = Uow.Task.GetFirst(x => x.Id == request.Id);
+
+            if (entity == null)
+                throw new ValidationException("Tarefa não encontrada");
 
             Uow.Task.Delete(entity);
             Uow.Complete();

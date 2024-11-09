@@ -19,6 +19,7 @@ using Microsoft.AspNetCore.Hosting;
 using Task.Manager.Domain;
 using Microsoft.Extensions.Hosting;
 using TaskManager.Persistance.Data;
+using TaskManager.Service.Interface.Services;
 
 namespace TaskManager.Web
 {
@@ -92,7 +93,7 @@ namespace TaskManager.Web
             services.AddScoped<UserService>();
             services.AddScoped<ProjectService>();
             services.AddScoped<TaskService>();
-            services.AddScoped<TaskAuditService>();
+            services.AddScoped<ITaskAuditService, TaskAuditService>();
         }
 
         private static void InjectRepositories(IServiceCollection services)

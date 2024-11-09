@@ -17,6 +17,7 @@ namespace Task.Manager.Domain.Entities
         public string Title { get; set; }
         public string Description { get; set; }
         public DateTime ExpiredDate { get; set; }
+        public DateTime? ClosedDate { get; set; }
         public StatusTask Status { get; set; }
         public PriorityTask Priority { get; set; }
         public virtual ICollection<TaskAudit> TaskAudits { get; set; }
