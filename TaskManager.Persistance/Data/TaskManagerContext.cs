@@ -7,6 +7,9 @@ using System.Text;
 using System.Threading.Tasks;
 using Task.Manager.Domain.Entities;
 using Task.Manager.Domain.Entities.Base;
+using Task.Manager.Domain.Enums;
+using TaskManager.Persistance.EntityConfig;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace TaskManager.Persistance.Data
 {
@@ -74,10 +77,11 @@ namespace TaskManager.Persistance.Data
             }
 
             //Exemplo de map
-            //modelBuilder.ApplyConfiguration(new CompanyMap());
-            //modelBuilder.ApplyConfiguration(new BudgetMap());
-            //modelBuilder.ApplyConfiguration(new IndicatorMap());
-            //modelBuilder.ApplyConfiguration(new TaskAudit());
+            modelBuilder.ApplyConfiguration(new UserMap());
+            modelBuilder.ApplyConfiguration(new ProjectMap());
+            modelBuilder.ApplyConfiguration(new TaskMap());
+            modelBuilder.ApplyConfiguration(new TaskAuditMap());
+
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

@@ -19,7 +19,7 @@ namespace TaskManager.Web
                 try
                 {
                     var context = services.GetRequiredService<TaskManagerContext>();
-                    //DBInitializer.Initialize(context);
+                    DBInitializer.Initialize(context);
                 }
                 catch (Exception ex)
                 {

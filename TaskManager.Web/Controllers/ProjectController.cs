@@ -16,6 +16,17 @@ namespace SOMA.OPEX.Web.Controllers
             _projectService = projectService;
         }
 
+        [HttpGet]
+        public IActionResult ListByUser(long userId)
+        {
+            ProjectGETRequest request = new ProjectGETRequest()
+            {
+                UserId = userId
+            };
+            var dados = _projectService.ListByUser(request);
+            return Ok(dados);
+        }
+
         [HttpPost]
         public IActionResult Add(ProjectRequest request)
         {

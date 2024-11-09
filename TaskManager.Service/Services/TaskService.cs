@@ -10,6 +10,7 @@ using System.Runtime.Intrinsics.X86;
 using System.Text;
 using System.Threading.Tasks;
 using Task.Manager.Domain.Entities;
+using Task.Manager.Domain.Resource.Base;
 using Task.Manager.Domain.Resource.Request;
 using Task.Manager.Domain.Resource.Response;
 using TaskManager.Service.Interface.Persistance;
@@ -22,9 +23,18 @@ namespace TaskManager.Service.Services
         {
         }
 
-        public void ListByUser()
+        public ResponseDefault<TaskResponse[]> ListByProject(TaskGETRequest request)
         {
+            var tasks = Uow.Task.Get(x => x.ProjectId == request.ProjectId).ToArray();
 
+            ResponseDefault<TaskResponse[]> response = new ResponseDefault<TaskResponse[]>()
+            {
+                Data = Mapper.Map<TaskResponse[]>(tasks),
+                Message = "Lista de tarefas por projeto",
+                Success = true
+            };
+
+            return response;
         }
 
         public void ReportPerformance()

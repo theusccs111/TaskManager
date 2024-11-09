@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Task.Manager.Domain.Entities;
+using Task.Manager.Domain.Resource.Base;
 using Task.Manager.Domain.Resource.Request;
 using Task.Manager.Domain.Resource.Response;
 using TaskManager.Service.Interface.Persistance;
@@ -20,9 +21,18 @@ namespace TaskManager.Service.Services
         {
         }
 
-        public void ListByUser()
+        public ResponseDefault<ProjectResponse[]> ListByUser(ProjectGETRequest request)
         {
+            var projects = Uow.Project.Get(x => x.UserId == request.UserId).ToArray();
 
+            ResponseDefault<ProjectResponse[]> response = new ResponseDefault<ProjectResponse[]>()
+            {
+                Data = Mapper.Map<ProjectResponse[]>(projects),
+                Message = "Lista de projetos por usuário",
+                Success = true
+            };
+
+            return response;
         }
 
         public int Create(ProjectRequest request)

@@ -13,6 +13,8 @@ namespace Task.Manager.Domain.Entities
         public string Login { get; set; }
         public string Password { get; set; }
         public RoleUser Role { get; set; }
+        public virtual ICollection<Project> Projects { get; set; }
+        public virtual ICollection<TaskAudit> TaskAudits { get; set; }
 
     }
 }
