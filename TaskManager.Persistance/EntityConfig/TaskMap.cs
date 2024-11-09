@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore.Metadata.Builders;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,6 +14,13 @@ namespace TaskManager.Persistance.EntityConfig
         public override void Configure(EntityTypeBuilder<Task.Manager.Domain.Entities.Task> builder)
         {
             base.Configure(builder);
+
+
+            builder
+            .HasOne(ta => ta.User)
+            .WithMany(u => u.Tasks)
+            .HasForeignKey(ta => ta.UserId)
+            .OnDelete(DeleteBehavior.NoAction);
 
             builder.Property(x => x.Description).HasMaxLength(500);
         }
