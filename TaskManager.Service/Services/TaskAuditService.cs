@@ -9,8 +9,11 @@ using System.Runtime.ConstrainedExecution;
 using System.Text;
 using System.Threading.Tasks;
 using Task.Manager.Domain.Entities;
+using Task.Manager.Domain.Extensions;
+using Task.Manager.Domain.Resource.Base;
 using Task.Manager.Domain.Resource.Request;
 using Task.Manager.Domain.Resource.Response;
+using Task.Manager.Domain.Validations;
 using TaskManager.Service.Interface.Persistance;
 
 namespace TaskManager.Service.Services
@@ -26,15 +29,31 @@ namespace TaskManager.Service.Services
 
         }
 
-        public void Create()
+        public ResponseDefault<TaskAuditResponse> Create(TaskAuditRequest request)
         {
-            //-Os usuários podem adicionar comentários a uma tarefa para fornecer informações adicionais.
-            //- Os comentários devem ser registrados no histórico de alterações da tarefa.
+            var entity = Mapper.Map<TaskAudit>(request);
+
+            Uow.TaskAudit.Create(entity);
+
+            var entitySave = Mapper.Map<TaskAuditResponse>(entity);
+
+            var response = new ResponseDefault<TaskAuditResponse>(entitySave);
+
+            return response;
         }
 
-        public void Update()
+        public ResponseDefault<TaskAuditResponse> CreateWithComplete(TaskAuditRequest request)
         {
-            //Não é permitido alterar a prioridade de uma tarefa depois que ela foi criada.
+            var entity = Mapper.Map<TaskAudit>(request);
+
+            Uow.TaskAudit.Create(entity);
+            Uow.Complete();
+
+            var entitySave = Mapper.Map<TaskAuditResponse>(entity);
+
+            var response = new ResponseDefault<TaskAuditResponse>(entitySave);
+
+            return response;
         }
 
         public void Delete()

@@ -27,6 +27,27 @@ namespace SOMA.OPEX.Web.Controllers
             return Ok(dados);
         }
 
-        
+        [HttpPost]
+        public IActionResult Add(TaskRequest request)
+        {
+            var dados = _taskService.Create(request);
+            return Ok(dados);
+        }
+
+        [HttpPut]
+        public IActionResult Update(TaskRequest request)
+        {
+            var dados = _taskService.Update(request);
+            return Ok(dados);
+        }
+
+        [HttpDelete]
+        public IActionResult Delete(TaskRequest request)
+        {
+            var dados = _taskService.Delete(request);
+            return Ok(dados);
+        }
+
+
     }
 }

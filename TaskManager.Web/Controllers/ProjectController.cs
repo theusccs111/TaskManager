@@ -33,5 +33,20 @@ namespace SOMA.OPEX.Web.Controllers
             var dados = _projectService.Create(request);
             return Ok(dados);
         }
+
+
+        [HttpPut]
+        public IActionResult Update(ProjectRequest request)
+        {
+            var dados = _projectService.Update(request);
+            return Ok(dados);
+        }
+
+        [HttpDelete]
+        public IActionResult Delete(ProjectRequest request)
+        {
+            var dados = _projectService.Delete(request);
+            return Ok(dados);
+        }
     }
 }

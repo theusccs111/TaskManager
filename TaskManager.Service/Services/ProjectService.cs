@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Configuration;
 using System;
@@ -8,9 +9,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Task.Manager.Domain.Entities;
+using Task.Manager.Domain.Extensions;
 using Task.Manager.Domain.Resource.Base;
 using Task.Manager.Domain.Resource.Request;
 using Task.Manager.Domain.Resource.Response;
+using Task.Manager.Domain.Validations;
 using TaskManager.Service.Interface.Persistance;
 
 namespace TaskManager.Service.Services
@@ -25,31 +28,54 @@ namespace TaskManager.Service.Services
         {
             var projects = Uow.Project.Get(x => x.UserId == request.UserId).ToArray();
 
-            ResponseDefault<ProjectResponse[]> response = new ResponseDefault<ProjectResponse[]>()
-            {
-                Data = Mapper.Map<ProjectResponse[]>(projects),
-                Message = "Lista de projetos por usuário",
-                Success = true
-            };
+            var response = new ResponseDefault<ProjectResponse[]>(Mapper.Map<ProjectResponse[]>(projects));
 
             return response;
         }
 
-        public int Create(ProjectRequest request)
+        public ResponseDefault<ProjectResponse> Create(ProjectRequest request)
         {
-            return 1;
+            var entity = Mapper.Map<Project>(request);
+
+            Uow.Project.Create(entity);
+            Uow.Complete();
+
+            var entitySave = Mapper.Map<ProjectResponse>(entity);
+
+            var response = new ResponseDefault<ProjectResponse>(entitySave);
+
+            return response;
         }
 
-        public void Update()
+        public ResponseDefault<ProjectResponse> Update(ProjectRequest request)
         {
+            var entity = Uow.Project.GetFirst(x => x.Id == request.Id);
 
+            Mapper.Map(request, entity);
+
+
+            Uow.Project.Update(entity);
+            Uow.Complete();
+
+            var requestSave = Mapper.Map<ProjectResponse>(entity);
+            var retorno = new ResponseDefault<ProjectResponse>(requestSave);
+
+            return retorno;
         }
 
-        public void Delete()
+        public ResponseDefault<ProjectResponse> Delete(ProjectRequest request)
         {
-            //Um projeto não pode ser removido se ainda houver tarefas pendentes associadas a ele.
-            //Caso o usuário tente remover um projeto com tarefas pendentes, a API deve retornar um erro e sugerir a conclusão ou remoção das tarefas primeiro.
+            var entity = Uow.Project.GetDbSet().Include(x => x.Tasks)
+                    .FirstOrDefault(x => x.Id == request.Id);
 
+            ProjectValidation.ValidateToDelete(entity).ThrowException();
+
+            Uow.Project.Delete(entity);
+            Uow.Complete();
+
+            var retorno = new ResponseDefault<ProjectResponse>();
+
+            return retorno;
         }
     }
 }

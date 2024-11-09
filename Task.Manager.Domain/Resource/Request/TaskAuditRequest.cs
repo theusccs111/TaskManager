@@ -11,9 +11,7 @@ namespace Task.Manager.Domain.Resource.Request
     public class TaskAuditRequest : RequestBase
     {
         public long TaskId { get; set; }
-        public virtual TaskRequest Task { get; set; }
         public long UserId { get; set; }
-        public virtual UserRequest User { get; set; }
         public string Description { get; set; }
     }
 }

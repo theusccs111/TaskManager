@@ -20,6 +20,8 @@ namespace TaskManager.Persistance.EntityConfig
             .WithMany(u => u.TaskAudits)
             .HasForeignKey(ta => ta.UserId)
             .OnDelete(DeleteBehavior.NoAction);
+
+            builder.Property(x => x.Description).HasMaxLength(999);
         }
     }
 }
