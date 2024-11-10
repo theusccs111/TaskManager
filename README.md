@@ -13,8 +13,9 @@ Antes de começar, você precisa ter as seguintes ferramentas instaladas no seu si
 
 ### 1. Clonar o Repositório
 
-Primeiramente, clone o repositório para sua máquina local:
+Clone o repositório para sua máquina local:
 
+```bash
 git clone https://github.com/theusccs111/TaskManager
 cd TaskManager
 
@@ -23,9 +24,17 @@ Certifique-se de que o Docker e o Docker Compose estão instalados corretamente. 
 docker --version
 docker-compose --version
 
-Com o Docker configurado, execute o seguinte comando para criar e iniciar os containers:
+Com o Docker configurado, execute os comandos para subir no seu docker hub
 
-docker-compose up --build
+docker build -t theusccs111/taskmanager -f TaskManager.Web/Dockerfile .
+
+docker push theusccs111/taskmanager
+
+e para rodar a imagem no container
+
+docker run -d -p 5000:80 theusccs111/taskmanager
+
+as apis estão disponiveis em http://localhost:5000/
 
 ### 2. Perguntas ao PO
 
