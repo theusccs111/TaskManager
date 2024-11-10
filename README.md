@@ -15,7 +15,6 @@ Antes de começar, você precisa ter as seguintes ferramentas instaladas no seu si
 
 Primeiramente, clone o repositório para sua máquina local:
 
-
 git clone https://github.com/theusccs111/TaskManager
 cd TaskManager
 
@@ -28,4 +27,17 @@ Com o Docker configurado, execute o seguinte comando para criar e iniciar os con
 
 docker-compose up --build
 
-O projeto estará disponível no endereço http://localhost:5000
+### 2. Perguntas ao PO
+
+- O projeto terá autenticação e gestão de acesso ? Porque hoje não tem nenhum controle dessa parte como Token JWT por exemplo.
+- Quais outros relatórios o ajudaria a analisar os usuários com suas tarefas, como algum índice de produtividade.
+- E acho que seria melhor poder trocar a prioridade da tarefa, porque vai que o usuário cria ela errada, então tem que excluir essa e criar outra ?
+- As tarefas poderia de alguma forma sincronizar com algum dispositivo de chat como Teams, Slack, para todos verem as alterações.
+
+
+### 3. Melhorias
+
+- Implementaria autenticação JWT e controle de sessão
+- Implementaria a parte de Front-end em Angular com Antdesign para facilitar o uso
+- Acredito que seria melhor uma classificação para a tarefa como Back-end, Front-end, Analise, Reunião para poder criar relatórios baseado nisso e assim dizer em qual tipo de tarefa foi gasto mais tempo
+- Implementaria o cadastro de usuário
