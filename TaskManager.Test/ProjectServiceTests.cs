@@ -97,8 +97,7 @@ namespace TaskManager.Test
         {
             // Arrange
             var userId = 1;
-            _mockUow.Setup(uow => uow.Project.Get(It.IsAny<Expression<Func<Project, bool>>>()))
-                    .Returns(Enumerable.Empty<Project>().AsQueryable());
+            _mockUow.Setup(uow => uow.Project.GetDbSet()).ReturnsDbSet(new List<Project>());
 
             // Act
             var result = _projectService.ListByUser(new ProjectGETRequest { UserId = userId });

@@ -27,7 +27,7 @@ namespace TaskManager.Service.Services
 
         public ResponseDefault<ProjectResponse[]> ListByUser(ProjectGETRequest request)
         {
-            var projects = Uow.Project.Get(x => x.UserId == request.UserId).ToArray();
+            var projects = Uow.Project.GetDbSet().Include(x => x.User).Where(x => x.UserId == request.UserId).ToArray();
 
             var response = new ResponseDefault<ProjectResponse[]>(Mapper.Map<ProjectResponse[]>(projects));
 

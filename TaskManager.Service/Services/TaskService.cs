@@ -49,11 +49,14 @@ namespace TaskManager.Service.Services
             UserValidation.ValidateBeManager(user).ThrowException();
 
             var tasks = Uow.Task.GetDbSet()
-                .Where(x => x.Status == StatusTask.Closed && x.ClosedDate >= DateTime.Now.AddDays(-30))
+                .Include(x => x.User)
+                .Where(x => x.Status == StatusTask.Closed && x.ClosedDate >= DateTime.Now.AddDays(-30).ToUniversalTime())
                 .GroupBy(x => x.UserId)
                 .Select(g => new ReportPerformanceResponse()
                 {
                     UserId = g.Key,
+                    Login = g.First().User.Login,
+                    Role = g.First().User.Role,
                     AverageTasksCompleted = g.Count()
                 })
             .ToList();

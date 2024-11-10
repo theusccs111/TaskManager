@@ -1,6 +1,6 @@
 # Projeto .NET Core com Docker e SQL Server
 
-Este é um projeto .NET Core configurado para rodar em um ambiente Docker com SQL Server. Abaixo estão as instruções para rodar o projeto localmente utilizando Docker e Docker Compose.
+Este é um projeto .NET Core configurado para rodar em um ambiente Docker. Abaixo estão as instruções para rodar o projeto utilizando Docker.
 
 ## Pré-requisitos
 
@@ -11,28 +11,33 @@ Antes de começar, você precisa ter as seguintes ferramentas instaladas no seu si
 
 ### Passos para Configuração e Execução
 
-### 1. Clonar o Repositório
-
 Clone o repositório para sua máquina local:
 
 ```bash
 git clone https://github.com/theusccs111/TaskManager
 cd TaskManager
+```
 
 Certifique-se de que o Docker e o Docker Compose estão instalados corretamente. Para isso, abra o terminal e execute:
 
+```bash
 docker --version
 docker-compose --version
+```
 
 Com o Docker configurado, execute os comandos para subir no seu docker hub
 
+```bash
 docker build -t theusccs111/taskmanager -f TaskManager.Web/Dockerfile .
 
 docker push theusccs111/taskmanager
+```
 
 e para rodar a imagem no container
 
+```bash
 docker run -d -p 5000:80 theusccs111/taskmanager
+```
 
 as apis estão disponiveis em http://localhost:5000/
 
