@@ -95,7 +95,7 @@ namespace TaskManager.Service.Services
             Mapper.Map(request, entity);
             if(entity.Status == StatusTask.Closed)
             {
-                entity.ClosedDate = DateTime.Now;
+                entity.ClosedDate = DateTime.Now.ToUniversalTime();
             }
 
             Uow.Task.Update(entity);

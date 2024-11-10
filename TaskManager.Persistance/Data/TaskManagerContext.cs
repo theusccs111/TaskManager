@@ -42,7 +42,7 @@ namespace TaskManager.Persistance.Data
         }
         protected virtual void OnBeforeSaving()
         {
-            var now = DateTime.Now;
+            var now = DateTime.Now.ToUniversalTime();
             ChangeTracker.DetectChanges();
             foreach (var entry in ChangeTracker.Entries())
             {

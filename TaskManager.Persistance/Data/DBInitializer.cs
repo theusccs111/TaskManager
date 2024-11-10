@@ -86,8 +86,8 @@ namespace TaskManager.Persistance.Data
                         ProjectId = 1,
                         UserId = i % 2 == 0 ? 1 : 2, 
                         Status = i % 3 == 0 ? StatusTask.Closed : StatusTask.Active, 
-                        ExpiredDate = DateTime.Now.AddMonths(1),
-                        ClosedDate = i % 3 == 0 ? DateTime.Now.AddDays(-i) : null 
+                        ExpiredDate = DateTime.Now.AddMonths(1).ToUniversalTime(),
+                        ClosedDate = i % 3 == 0 ? DateTime.Now.AddDays(-i).ToUniversalTime() : null 
                     });
                 }
 
@@ -102,8 +102,8 @@ namespace TaskManager.Persistance.Data
                         ProjectId = 2,
                         UserId = i % 2 == 0 ? 1 : 2, 
                         Status = i % 3 == 0 ? StatusTask.Closed : StatusTask.Proposed, 
-                        ExpiredDate = DateTime.Now.AddMonths(1),
-                        ClosedDate = i % 3 == 0 ? DateTime.Now.AddDays(-i) : null 
+                        ExpiredDate = DateTime.Now.AddMonths(1).ToUniversalTime(),
+                        ClosedDate = i % 3 == 0 ? DateTime.Now.AddDays(-i).ToUniversalTime() : null 
                     });
                 }
 

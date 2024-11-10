@@ -33,7 +33,7 @@ namespace TaskManager.Web
         public void ConfigureServices(IServiceCollection services)
         {
             var connectionString = Configuration.GetConnectionString("DefaultConnection");
-            services.AddDbContext<TaskManagerContext>(options => options.UseSqlServer(connectionString));
+            services.AddDbContext<TaskManagerContext>(options => options.UseNpgsql(connectionString));
 
             services.AddTransient<GlobalExceptionHandlerMiddleware>();
 
