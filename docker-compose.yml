@@ -1,6 +1,0 @@
-services:
-  taskmanager.web:
-    image: ${DOCKER_REGISTRY-}taskmanagerweb
-    build:
-      context: .
-      dockerfile: TaskManager.Web/Dockerfile
