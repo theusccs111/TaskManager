@@ -55,3 +55,4 @@ as apis estão disponiveis em http://localhost:5000/
 - Implementaria a parte de Front-end em Angular com Antdesign para facilitar o uso
 - Acredito que seria melhor uma classificação para a tarefa como Back-end, Front-end, Analise, Reunião para poder criar relatórios baseado nisso e assim dizer em qual tipo de tarefa foi gasto mais tempo
 - Implementaria o cadastro de usuário
+- Implementaria sincronismo com o Teams ou Slack
