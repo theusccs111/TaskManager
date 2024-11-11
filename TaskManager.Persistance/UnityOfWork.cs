@@ -7,7 +7,7 @@ using TaskManager.Persistance.Repositories;
 using TaskManager.Service.Interface.Persistance;
 using TaskManager.Service.Interface.Persistance.Repository;
 
-namespace SOMA.OPEX.Persistance
+namespace TaskManager.Persistance
 {
     public class UnityOfWork : IUnityOfWork, IDisposable
     {
@@ -18,7 +18,7 @@ namespace SOMA.OPEX.Persistance
         public IRepository<Project> Project { get { return new Repository<Project>(_context); } }
         public IRepository<Task.Manager.Domain.Entities.Task> Task { get { return new Repository<Task.Manager.Domain.Entities.Task>(_context); } }
         public IRepository<TaskAudit> TaskAudit { get { return new Repository<TaskAudit>(_context); } }
-        
+
         public UnityOfWork(TaskManagerContext context)
         {
             _context = context;

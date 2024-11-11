@@ -67,13 +67,11 @@ namespace TaskManager.Test
             // Arrange
             var projectRequest = new ProjectRequest { Id = 1, Description = "Updated Project" };
 
-            // Configura o mock para retornar null quando o projeto não for encontrado
             _mockUow.Setup(uow => uow.Project.GetFirst(It.IsAny<Expression<Func<Project, bool>>>())).Returns((Project)null);
 
             // Act & Assert
             var exception = Assert.Throws<ValidationException>(() => _projectService.Update(projectRequest));
 
-            // Verifica se a exceção foi lançada com a mensagem esperada
             Assert.Equal("Projeto não encontrado", exception.Message);
         }
 
@@ -82,13 +80,12 @@ namespace TaskManager.Test
         public void Delete_ShouldReturnError_WhenProjectNotFound()
         {
             // Arrange
-            var projectRequest = new ProjectRequest { Id = 999 }; // Id que não existe
+            var projectRequest = new ProjectRequest { Id = 999 }; 
             _mockUow.Setup(uow => uow.Project.GetDbSet()).ReturnsDbSet(new List<Project>());
 
             // Act & Assert
             var exception = Assert.Throws<ValidationException>(() => _projectService.Delete(projectRequest));
 
-            // Verifica se a mensagem da exceção está correta
             Assert.Equal("Projeto não encontrado", exception.Message);
         }
         
@@ -104,7 +101,7 @@ namespace TaskManager.Test
 
             // Assert
             Assert.NotNull(result.Data);
-            Assert.Empty(result.Data); // Verifica que a lista está vazia
+            Assert.Empty(result.Data); 
         }
 
         [Fact]
@@ -124,7 +121,6 @@ namespace TaskManager.Test
             };
 
             _mockUow.Setup(uow => uow.Project.GetDbSet()).ReturnsDbSet(new List<Project> { project });
-            //_mockUow.Setup(uow => uow.Project.GetDbSet().Include(x => x.Tasks)).re(new List<Project> { project });
 
             // Act & Assert
             var exception = Assert.Throws<ValidationException>(() => _projectService.Delete(new ProjectRequest { Id = projectId }));
@@ -148,7 +144,6 @@ namespace TaskManager.Test
             };
 
             _mockUow.Setup(uow => uow.Project.GetDbSet()).ReturnsDbSet(new List<Project> { project });
-            //_mockUow.Setup(uow => uow.Project.GetDbSet().Include(x => x.Tasks)).ReturnsDbSet(new List<Project> { project });
             _mockUow.Setup(uow => uow.Project.Delete(It.IsAny<Project>()));
 
             // Act
@@ -164,7 +159,7 @@ namespace TaskManager.Test
         public void Delete_ShouldThrowValidationException_WhenProjectNotFound()
         {
             // Arrange
-            var projectId = 999; // ID que não existe
+            var projectId = 999; 
             _mockUow.Setup(uow => uow.Project.GetDbSet()).ReturnsDbSet(new List<Project>());
 
             // Act & Assert

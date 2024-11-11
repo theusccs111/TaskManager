@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Task.Manager.Domain.Resource.Request;
 using TaskManager.Service.Services;
 
-namespace SOMA.OPEX.Web.Controllers
+namespace TaskManager.Web.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]

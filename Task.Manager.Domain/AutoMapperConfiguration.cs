@@ -30,10 +30,6 @@ namespace Task.Manager.Domain
                     this.CreateMap(s, responseModelName).ReverseMap();
                 }
             });
-
-            //CreateMap<ServicoRequest, Servico>()
-            //   .ForMember(dest => dest.TempoMedio, opt => opt.MapFrom(x => TimeSpan.Parse(x.TempoMedio)))
-            //   ;
         }
     }
 }

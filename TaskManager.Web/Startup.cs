@@ -4,7 +4,6 @@ using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc.Razor;
 using System.Globalization;
 using Microsoft.AspNetCore.ResponseCompression;
-using SOMA.OPEX.Persistance;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using TaskManager.Web.Middleware;
@@ -20,6 +19,7 @@ using Task.Manager.Domain;
 using Microsoft.Extensions.Hosting;
 using TaskManager.Persistance.Data;
 using TaskManager.Service.Interface.Services;
+using TaskManager.Persistance;
 
 namespace TaskManager.Web
 {
@@ -59,8 +59,7 @@ namespace TaskManager.Web
 
             InjectServices(services);
             InjectRepositories(services);
-            //ConfigureJWTService(services, Configuration["JwtSecurityToken:Key"]);
-            ConfigureSwaggerService(services, "OPÈX");
+            ConfigureSwaggerService(services, "TaskManager");
 
             services.AddScoped<RequestValidationFilter>();
             services.AddAutoMapper(c => c.AddProfile<AutoMapperConfiguration>(), typeof(Startup));
@@ -108,7 +107,6 @@ namespace TaskManager.Web
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            // Adicione essas linhas ao Configure para configurar localização de mensagens
             var supportedCultures = new[] { new CultureInfo("en-US"), new CultureInfo("pt-BR") };
             app.UseRequestLocalization(new RequestLocalizationOptions
             {
@@ -123,7 +121,6 @@ namespace TaskManager.Web
             }
             else
             {
-                // Use o middleware de tratamento global de exceções em ambientes de produção
                 app.UseMiddleware<GlobalExceptionHandlerMiddleware>();
             }
             app.UseMiddleware<GlobalExceptionHandlerMiddleware>();
@@ -132,7 +129,7 @@ namespace TaskManager.Web
             app.UseResponseCompression();
             app.UseCors();
 
-            app.UseRouting();  // Adicione esta linha para configurar o roteamento de endpoints
+            app.UseRouting(); 
 
             app.UseAuthentication();
 
@@ -144,15 +141,12 @@ namespace TaskManager.Web
 
 
 
-            // Enable middleware to serve generated Swagger as a JSON endpoint.
             app.UseSwagger();
             app.UseSwaggerUI(c =>
             {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "Barbeiro");
-                //c.RoutePrefix = string.Empty;
             });
 
-            // Adicione essas linhas ao final do método Configure para lidar com erros não tratados
             app.UseExceptionHandler("/Home/Error");
             app.UseStatusCodePagesWithReExecute("/Home/Error/{0}");
 
@@ -160,23 +154,10 @@ namespace TaskManager.Web
 
         public void ConfigureSwaggerService(IServiceCollection service, string apiName)
         {
-            // https://docs.microsoft.com/en-us/aspnet/core/tutorials/getting-started-with-swashbuckle?view=aspnetcore-2.2&tabs=visual-studio
-            // Register the Swagger generator, defining 1 or more Swagger documents
+            
             service.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = apiName, Version = "v1", Description = "Management System" });
-                //c.AddSecurityDefinition(
-                //    "Bearer",
-                //    new OpenApiSecurityScheme
-                //    {
-                //        Description = @"JWT Authorization header using the Bearer scheme. 
-                //                        Enter 'Bearer' [space] and then your token in the text input below.
-                //                        Example: 'Bearer 12345abcdef'",
-                //        Name = "Authorization",
-                //        In = ParameterLocation.Header,
-                //        Type = SecuritySchemeType.ApiKey,
-                //        Scheme = "Bearer"
-                //    });
 
                 c.AddSecurityRequirement(new OpenApiSecurityRequirement()
                 {

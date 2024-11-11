@@ -36,14 +36,7 @@ namespace TaskManager.Web.Middleware
 
         private System.Threading.Tasks.Task HandleExceptionAsync(HttpContext context, Exception exception)
         {
-            var code = HttpStatusCode.InternalServerError; // 500 if unexpected
-
-            //if (exception is Exception)
-            //{
-            //    code = HttpStatusCode.NotFound;
-            //}
-            // else if (exception is MyUnauthorizedException) code = HttpStatusCode.Unauthorized;
-            // else if (exception is MyException)             code = HttpStatusCode.BadRequest;
+            var code = HttpStatusCode.InternalServerError; 
 
             var result = JsonConvert.SerializeObject(new
             {

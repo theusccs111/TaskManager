@@ -66,7 +66,6 @@ namespace TaskManager.Persistance.Data
         {
             foreach (var entity in modelBuilder.Model.GetEntityTypes())
             {
-                // Replace table names
                 entity.SetTableName(entity.GetTableName()?.ToUpper());
 
                 if (entity.GetProperties().Where(p => p.PropertyInfo != null).Any())
@@ -76,7 +75,6 @@ namespace TaskManager.Persistance.Data
 
             }
 
-            //Exemplo de map
             modelBuilder.ApplyConfiguration(new UserMap());
             modelBuilder.ApplyConfiguration(new ProjectMap());
             modelBuilder.ApplyConfiguration(new TaskMap());

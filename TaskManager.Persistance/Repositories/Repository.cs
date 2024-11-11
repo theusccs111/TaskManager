@@ -17,40 +17,22 @@ namespace TaskManager.Persistance.Repositories
             _context = context;
         }
 
-        /// <summary>
-        /// Obter todos os dados
-        /// </summary>
-        /// <returns></returns>
         public IQueryable<T> GetAll()
         {
             return _context.Set<T>();
         }
 
-
-        /// <summary>
-        /// Obter todos os dados com include
-        /// </summary>
-        /// <returns></returns>
         public virtual IQueryable<T> GetAllLazyLoad(Expression<Func<T, bool>> predicate, params Expression<Func<T, object>>[] includes)
         {
             var query = GetAll().Where(predicate);
             return includes.Aggregate(query, (current, includeProperty) => current.Include(includeProperty));
         }
 
-        /// <summary>
-        /// Obter dbSet
-        /// </summary>
-        /// <returns></returns>
         public DbSet<T> GetDbSet()
         {
             return _context.Set<T>();
         }
 
-        /// <summary>
-        /// Obter dados filtrados por expressão lambda
-        /// </summary>
-        /// <param name="predicate"></param>
-        /// <returns></returns>
         public IQueryable<T> Get(Expression<Func<T, bool>> predicate)
         {
             return _context.Set<T>().Where(predicate);
@@ -61,11 +43,6 @@ namespace TaskManager.Persistance.Repositories
             return _context.Set<T>().Find(key);
         }
 
-        /// <summary>
-        /// Obter primeiro registro conforme expressão lambda
-        /// </summary>
-        /// <param name="predicate"></param>
-        /// <returns></returns>
         public T GetFirst(Expression<Func<T, bool>> predicate)
         {
             return _context.Set<T>().FirstOrDefault(predicate);

@@ -27,14 +27,12 @@ namespace TaskManager.Test
 
             public TaskAuditServiceTests()
             {
-                // Setup mocks
                 _mockUow = new Mock<IUnityOfWork>();
                 _mockHttpContextAccessor = new Mock<IHttpContextAccessor>();
                 _mockMapper = new Mock<IMapper>();
                 _mockMemoryCache = new Mock<IMemoryCache>();
                 _mockConfig = new Mock<IConfiguration>();
 
-                // Instanciar o serviço com os mocks
                 _taskAuditService = new TaskAuditService(
                     _mockHttpContextAccessor.Object,
                     _mockUow.Object,

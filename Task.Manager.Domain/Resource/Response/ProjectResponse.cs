@@ -11,7 +11,6 @@ namespace Task.Manager.Domain.Resource.Response
 {
     public class ProjectResponse : ResponseBase
     {
-        //public virtual ICollection<Task> Tasks { get; set; }
         public long UserId { get; set; }
         public virtual UserResponse User { get; set; }
         public string Description { get; set; }
